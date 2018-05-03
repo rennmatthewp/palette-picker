@@ -18,9 +18,20 @@ exports.seed = function(knex, Promise) {
                 palette: ['#008000', '#008000', '#008000', '#008000', '#008000']
               }
             ]);
+          }),
+        knex('projects')
+          .insert({ name: 'big Proj' }, 'id')
+          .then(project => {
+            return knex('palettes').insert([
+              {
+                name: 'the whites',
+                project_id: project[0],
+                palette: ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']
+              }
+            ]);
           })
-          .then(() => console.log('Seeding complete!'))
-          .catch(error => console.log(`Error seeding data: ${error}`))
-      ]);
+      ])
+        .then(() => console.log('Seeding complete!'))
+        .catch(error => console.log(`Error seeding data: ${error}`));
     });
 };
