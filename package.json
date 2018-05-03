@@ -1,11 +1,10 @@
 {
   "name": "palette-picker",
   "version": "1.0.0",
-  "description":
-    "Generate a palette with 5 distinct colors and save that palette to a project folder",
+  "description": "Generate a palette with 5 distinct colors and save that palette to a project folder",
   "main": "index.js",
   "scripts": {
-    "eslint": "./node_modules/.bin/eslint ./*.js",
+    "eslint": "./node_modules/.bin/eslint ./*.js ./*/*.js ./*/*/*.js",
     "test": "NODE_ENV=test mocha --exit",
     "start": "nodemon server.js"
   },
@@ -29,6 +28,7 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "git+https://github.com/chaijs/chai-http.git#3ea4524",
+    "eslint": "^4.19.1",
     "mocha": "^5.1.1"
   }
 }
