@@ -9,7 +9,7 @@ router.post('/projects', (request, response) => {
   for (let requiredParameter of ['name']) {
     if (!project[requiredParameter]) {
       return response.status(422).send({
-        error: `Expected format: { name: <String> }. Missgin ${requiredParameter} property.`
+        error: `Expected format: { name: <String> }. Missing ${requiredParameter} property.`
       });
     }
   }
@@ -21,9 +21,8 @@ router.post('/projects', (request, response) => {
 });
 
 router.get('/projects', (request, response) => {
-  database
+  database('projects')
     .select()
-    .table('projects')
     .then(projects => response.status(200).json(projects))
     .catch(error => response.status(500).json({ error }));
 });

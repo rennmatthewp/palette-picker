@@ -26,8 +26,15 @@ const generatePalette = () => {
   });
 };
 
+const toggleLock = ({ target }) => {
+  blocks[target.id].locked = !blocks[target.id].locked;
+  $(target).find('i').toggleClass('fa-unlock fa-lock');
+};
+
 $(document).keyup(e => {
   if (e.which === 32 && e.target === document.body) {
     generatePalette();
   }
 });
+
+$('.color-block').click(toggleLock);

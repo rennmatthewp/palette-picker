@@ -1,21 +1,36 @@
 body {
+  box-sizing: border-box;
   font-family: 'Open Sans', sans-serif;
+  line-height: 1.5;
+  font-size: 62.5%;
 }
 
 h1 {
-  font-size: 48px;
+  font-size: 3.2em;
   font-weight: 300;
 }
 
 h5 {
+  font-size: 1.5em;
   font-weight: 300;
+  margin-left: 1em;
+}
+
+span {
+  font-size: 1.3em;
+}
+
+b {
+  font-size: 3.1em;
+  padding: 0 0 1em;
 }
 
 header {
   display: flex;
   align-items: center;
+  justify-content: space-around;
   width: 100vw;
-  height: 15vh;
+  height: 10vh;
   margin: auto;
 }
 
@@ -27,9 +42,27 @@ main {
   justify-content: center;
 }
 
+button {
+  font-size: 1.3em;
+}
+
+.header-text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.palette-name-input,
+.create-project-input,
+.project-select {
+  min-width: 6.7em;
+  max-width: 10em;
+  margin: 0 .5em;
+}
+
 .blocks-container {
   width: 100%;
-  height: 85vh;
+  height: 90vh;
   display: flex;
 }
 
@@ -40,4 +73,8 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.fas {
+  margin: auto;
 }
