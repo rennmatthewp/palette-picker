@@ -27,4 +27,19 @@ router.get('/projects', (request, response) => {
     .catch(error => response.status(500).json({ error }));
 });
 
+router.get('/projects/:id', (request, response) => {
+  const { id } = request.params;
+
+  database('projects')
+    .where('id', id)
+    .select()
+    .then(project => {
+      if (!project[0]) {
+        return response.status(404).json({ error: `could not find project with id: ${id}` });
+      }
+      response.status(200).json(project[0]);
+    })
+    .catch(error => response.status(500).json({ error }));
+});
+
 module.exports = router;
