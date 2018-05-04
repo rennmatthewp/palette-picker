@@ -1,4 +1,4 @@
-const blocks = [
+const palette = [
   { color: '#FFF', locked: false },
   { color: '#FFF', locked: false },
   { color: '#FFF', locked: false },
@@ -16,7 +16,7 @@ const generateHexCode = () => {
 };
 
 const generatePalette = () => {
-  blocks.forEach((block, index) => {
+  palette.forEach((block, index) => {
     if (block.locked === false) {
       const hexCode = generateHexCode();
       block.color = hexCode;
@@ -27,7 +27,7 @@ const generatePalette = () => {
 };
 
 const toggleLock = ({ target }) => {
-  blocks[target.id].locked = !blocks[target.id].locked;
+  palette[target.id].locked = !palette[target.id].locked;
   $(target)
     .find('i')
     .toggleClass('fa-unlock fa-lock');
@@ -68,6 +68,20 @@ const createProject = e => {
   getProjectOptions();
 };
 
+const savePalette = e => {
+  e.preventDefault();
+  const project = $('#project-select').val();
+  const paletteName = $('#palette-name').val();
+  const paletteArr = palette.map(color => color.color)
+  const savedPalette = {
+    name: paletteName,
+    project_id: project,
+    palette: paletteArr
+  };
+
+  postData('/api/v1/palettes', savedPalette);
+};
+
 $(document).ready(() => {
   generatePalette();
   getProjectOptions();
@@ -78,6 +92,9 @@ $(document).keyup(e => {
     generatePalette();
   }
 });
+
 $('#create-project-button').on('click', createProject);
+
+$('#save-palette-button').on('click', savePalette);
 
 $('.color-block').click(toggleLock);
