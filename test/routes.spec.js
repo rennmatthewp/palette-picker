@@ -31,7 +31,7 @@ describe('API Routes', () => {
         .end((error, response) => {
           response.should.have.status(200);
           response.should.be.json;
-          response.body.should.be.a('array');
+          response.body.should.be.an('array');
           response.body.length.should.equal(2);
           response.body[0].should.have.property('name');
           response.body[0].name.should.equal('lil project');
@@ -94,10 +94,137 @@ describe('API Routes', () => {
           response.should.have.status(422);
           response.should.be.json;
           response.should.be.an('object');
-          response.body.should.have.property('error');  
+          response.body.should.have.property('error');
           response.body.error.should.equal(
             'Expected format: { name: <String> }. Missing name property.'
           );
+          done();
+        });
+    });
+  });
+
+  describe('GET /api/v1/palettes', () => {
+    it('should return all palettes', done => {
+      chai
+        .request(server)
+        .get('/api/v1/palettes')
+        .end((error, response) => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.an('array');
+          response.body.length.should.equal(3);
+          response.body[0].should.have.property('id');
+          response.body[0].id.should.equal(1);
+          response.body[0].should.have.property('name');
+          response.body[0].name.should.equal('go blue');
+          response.body[0].should.have.property('palette');
+          response.body[0].palette.should.be.a('string');
+          response.body[0].palette.should.equal(
+            '{"#000ff","#000ff","#000ff","#000ff","#000ff"}'
+          );
+          done();
+        });
+    });
+  });
+
+  describe('GET /api/v1/palettes:id', () => {
+    it('should respond with the requested palette', done => {
+      chai
+        .request(server)
+        .get('/api/v1/palettes/1')
+        .end((error, response) => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.an('object');
+          response.body.should.have.property('id');
+          response.body.id.should.equal(1);
+          response.body.should.have.property('name');
+          response.body.name.should.equal('go blue');
+          response.body.should.have.property('palette');
+          response.body.palette.should.be.a('string');
+          response.body.palette.should.equal(
+            '{"#000ff","#000ff","#000ff","#000ff","#000ff"}'
+          );
+          done();
+        });
+    });
+
+    it('should respond with 404 error if palette is not found', done => {
+      chai
+        .request(server)
+        .get('/api/v1/palettes/4')
+        .end((error, response) => {
+          response.should.have.status(404);
+          response.should.be.json;
+          response.body.should.be.an('object');
+          response.body.should.have.property('error');
+          response.body.error.should.equal('Could not find palette with id: 4');
+          done();
+        });
+    });
+  });
+
+  describe('POST /api/v1/palettes', () => {
+    it('should add a palette to the db and return the palette id', done => {
+      chai
+        .request(server)
+        .post('/api/v1/palettes')
+        .send({
+          name: 'murderface',
+          project_id: 2,
+          palette: ['#000000', '#000000', '#000000', '#000000', '#000000']
+        })
+        .end((error, response) => {
+          response.should.have.status(201);
+          response.should.be.json;
+          response.body.should.be.an('object');
+          response.body.should.have.property('id');
+          response.body.id.should.equal(4);
+          done();
+        });
+    });
+
+    it('should respond with 422 error if request is missing required parameters', done => {
+      chai
+        .request(server)
+        .post('/api/v1/palettes')
+        .send({
+          name: 'murderface',
+          project_id: 2
+        })
+        .end((error, response) => {
+          response.should.have.status(422);
+          response.should.be.json;
+          response.body.should.be.an('object');
+          response.body.should.have.property('error');
+          response.body.error.should.equal(
+            "Expected format: { name: <String>, project_id: <Number>, palette: <String> }. You're missing a palette property"
+          );
+          done();
+        });
+    });
+  });
+
+  describe('DELETE /api/v1/palettes/:id', () => {
+    it('should remove requested palette from db', done => {
+      chai
+        .request(server)
+        .delete('/api/v1/palettes/1')
+        .end((error, response) => {
+          response.should.have.status(204);
+          done();
+        });
+    });
+
+    it('should return a 404 error if a palette does not exist', done => {
+      chai
+        .request(server)
+        .delete('/api/v1/palettes/100')
+        .end((error, response) => {
+          response.should.have.status(404);
+          response.should.be.json;
+          response.body.should.have.property('error');
+          response.body.error.should.equal('Could not find palette to delete');
           done();
         });
     });
