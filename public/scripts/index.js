@@ -28,13 +28,56 @@ const generatePalette = () => {
 
 const toggleLock = ({ target }) => {
   blocks[target.id].locked = !blocks[target.id].locked;
-  $(target).find('i').toggleClass('fa-unlock fa-lock');
+  $(target)
+    .find('i')
+    .toggleClass('fa-unlock fa-lock');
 };
+
+const renderProjectOptions = projects => {
+  const dropDown = $('#project-select');
+  dropDown.empty();
+  projects.forEach(project => {
+    dropDown.append(`<option value=${project.id}>${project.name}</option>`);
+  });
+};
+
+const getProjectOptions = () => {
+  fetch('/api/v1/projects')
+    .then(response => response.json())
+    .then(renderProjectOptions)
+    .catch(error => console.log(error));
+};
+
+const postData = (url, body) => {
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  })
+    .then(response => response.json())
+    .catch(error => console.log(error));
+};
+
+const createProject = e => {
+  e.preventDefault();
+  const name = $('#create-project-input').val();
+
+  postData('api/v1/projects', { name });
+  getProjectOptions();
+};
+
+$(document).ready(() => {
+  generatePalette();
+  getProjectOptions();
+});
 
 $(document).keyup(e => {
   if (e.which === 32 && e.target === document.body) {
     generatePalette();
   }
 });
+$('#create-project-button').on('click', createProject);
 
 $('.color-block').click(toggleLock);
