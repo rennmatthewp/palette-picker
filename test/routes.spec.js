@@ -127,7 +127,7 @@ describe('API Routes', () => {
     });
   });
 
-  describe('GET /api/v1/palettes:id', () => {
+  describe('GET /api/v1/palettes/:id', () => {
     it('should respond with the requested palette', done => {
       chai
         .request(server)
