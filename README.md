@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rennmatthewp/palette-picker.svg?branch=master)](https://travis-ci.org/rennmatthewp/palette-picker)
+
 # palette-picker
 
 ### Generate a palette with 5 distinct colors
