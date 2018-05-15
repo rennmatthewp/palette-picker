@@ -1,7 +1,7 @@
 exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.table('palettes', table => {
-      table.string('palette');
+      table.specificType('palette', 'TEXT[]');
     })
   ]);
 };

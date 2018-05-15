@@ -118,10 +118,14 @@ describe('API Routes', () => {
           response.body[0].should.have.property('name');
           response.body[0].name.should.equal('go blue');
           response.body[0].should.have.property('palette');
-          response.body[0].palette.should.be.a('string');
-          response.body[0].palette.should.equal(
-            '{"#000ff","#000ff","#000ff","#000ff","#000ff"}'
-          );
+          response.body[0].palette.should.be.an('array');
+          response.body[0].palette.should.deep.equal([
+            '#000ff',
+            '#000ff',
+            '#000ff',
+            '#000ff',
+            '#000ff'
+          ]);
           done();
         });
     });
@@ -141,10 +145,14 @@ describe('API Routes', () => {
           response.body.should.have.property('name');
           response.body.name.should.equal('go blue');
           response.body.should.have.property('palette');
-          response.body.palette.should.be.a('string');
-          response.body.palette.should.equal(
-            '{"#000ff","#000ff","#000ff","#000ff","#000ff"}'
-          );
+          response.body.palette.should.be.an('array');
+          response.body.palette.should.deep.equal([
+            '#000ff',
+            '#000ff',
+            '#000ff',
+            '#000ff',
+            '#000ff'
+          ]);
           done();
         });
     });
