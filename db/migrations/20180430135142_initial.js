@@ -2,7 +2,7 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTable('projects', table => {
       table.increments('id').primary();
-      table.string('name');
+      table.string('name').unique();
       table.timestamps(true, true);
     }),
     knex.schema.createTable('palettes', table => {
